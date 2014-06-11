@@ -1,0 +1,24 @@
+   <div class="row-fluid">   
+        <div class="widgetbox box-inverse">                        
+        <div class="headtitle">
+        	<% if content_for?(:black_action_container_actions) %>
+            <div class="btn-group">
+                <button data-toggle="dropdown" class="btn dropdown-toggle">Action <span class="caret"></span></button>
+                <ul class="dropdown-menu">
+              		<%= content_for :black_action_container_actions %>
+                </ul>
+            </div>
+            <% end %>
+            <h4 class="widgettitle">
+	        <% if content_for?(:black_action_container_title) %>
+              <%= content_for :black_action_container_title %>
+            <% end %>
+            </h4>
+        </div>
+        <div class="widgetcontent">
+            <% if content_for?(:black_action_container_content) %>
+              <%= content_for :black_action_container_content %>
+            <% end %>
+        </div><!--widgetcontent-->
+        </div><!--widgetbox-->        
+	</div>

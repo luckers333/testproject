@@ -1,0 +1,16 @@
+
+    <div class="leftpanel">
+        
+        <div class="leftmenu">        
+            <ul class="nav nav-tabs nav-stacked">
+            	<li class="nav-header">Navigation</li>
+                <li class="<%= "active" if params[:controller].include?("static/pages") %>"><%= link_to '<span class="iconfa-laptop"></span> Home'.html_safe, root_path %></li>               
+                <li class="dropdown <%= "active" if params[:controller].include?('content')%>"><%= link_to '<span class="iconfa-pencil"></span> Content entries'.html_safe, '' %>
+                	<ul <%= "style=display:block;" if params[:controller].include?("content")%>>
+                        <li <%= 'class=active' if params[:controller].include?("entr") %>><%= link_to 'Entries', new_content_entry_path %></li>                    	
+                    </ul>
+                </li>               
+                
+        </div><!--leftmenu-->
+        
+    </div><!-- leftpanel -->

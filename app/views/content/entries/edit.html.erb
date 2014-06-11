@@ -1,0 +1,3 @@
+<h2>Editing Entry <%= link_to 'Add New', new_content_entry_path,{:class=>"new-button"} %></h2>
+<% provide(:title, "Entry: #{@content_entry.title}") %>
+<%= render 'form' %>

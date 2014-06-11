@@ -1,0 +1,61 @@
+<h2>Entries <%= link_to 'Add New', new_content_entry_path,{:class=>"new-button"} %></h2>
+
+<div class="toggle-entry-search">
+	<span class="iconfa-search"></span> Click Here to Toggle Search
+</div><br>
+
+<div class="entry-search">
+  <%= form_tag(content_entries_path, method: :get) do %>       
+    <div class="field search-buttons">
+      <%= submit_tag( "Search" ) %> | <%= link_to "Clear search parameters", content_entries_path %>
+    </div>
+  <% end %>
+</div>
+<%= paginate @content_entries %>
+<h4 class="widgettitle"><%= page_entries_info(@content_entries) %></h4>
+<div class="widgetcontent">
+<table class="table table-hover table-bordered table-striped">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Slug</th>
+      <th>Content</th>
+      <th>ImageURL</th>
+      <th>Order</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @content_entries.each do |content_entry| %>     
+      <tr>
+        <td><%= link_to content_entry.title, edit_content_entry_path(content_entry) %></td>
+        <td><%= content_entry.title %></td>
+        <td><%= content_entry.slug %></td>        
+        <td><%= content_entry.image_url %></td>
+        <td><%= content_entry.order %></td>        
+        <td><%= link_to 'Edit', edit_content_entry_path(content_entry) %></td>
+        <td><%= link_to 'Destroy', content_entry, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+</div>
+<br>
+<%= paginate @content_entries %>
+
+<script>
+  $(".pageheader").hide();
+  $(".toggle-entry-search").click(function() {
+  	$(".entry-search").toggle();
+  });
+  
+  $(".entry-search").hide();
+
+  
+  //show the program search if the user has searched
+  <% if params[:commit] == 'Search' %>
+	$(".entry-search").show();
+  <% end %>
+</script>

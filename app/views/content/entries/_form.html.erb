@@ -1,0 +1,218 @@
+<%= form_for(@content_entry) do |f| %>
+  <% if @content_entry.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@content_entry.errors.count, "error") %> prohibited this content_entry from being saved:</h2>
+
+      <ul>
+      <% @content_entry.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="main-content">
+    <div class="field title-field">
+      <%= f.text_field :title, class: 'top-bars', placeholder: "Enter title here", maxlength: 69 %>
+    </div>    
+    <div class="field">
+      <%= f.text_area :content, :class => "tinymce", :rows => 25, :cols => 10 %>
+      <script>      
+      //<![CDATA[
+      tinyMCE.init({
+          "selector":"textarea.tinymce",
+          "toolbar_location":"top",
+          "toolbar_align":"left",
+          "statusbar_location":"bottom",
+          "buttons3_add":"tablecontrols,fullscreen,code",
+          "plugins":"uploadimage,textcolor,lists,charmap,searchreplace,code,media,table,fullscreen,link,insertdatetime,contextmenu,visualblocks,paste,advlist,image,importcss,pagebreak,autosave","insertdate_dateformat":"%Y-%m-%d",
+          toolbar: "bold,italic,underline,|,bullist,numlist,outdent,indent,|,undo,redo,|,pastetext,pasteword,selectall,|,uploadimage",
+          relative_urls: false,
+          remove_script_host: false,
+          document_base_url: (!window.location.origin ? window.location.protocol + "//" + window.location.host : window.location.origin) + "/",
+          setup : function(ed) {
+            ed.on('change', function(e) {
+              $('#post_preview').disable(true);
+            });
+          }});
+      //]]>
+      </script>
+    </div>
+  </div>  
+  <div class="right-sidebar">
+    <div class="div-box">
+      <% if(action_name == "edit" || action_name == "update") %>
+      <% button_label = "Update" %>
+      <% else %>
+      <% button_label = "Create" %>
+      <% end %>
+      <h3 style="padding-bottom: 25px;">Publish <button type="button" id="post_preview" class="btn submit-button" style="margin-left:15px;" disabled>View</button> <%= f.submit button_label, :class => 'btn btn-primary submit-button'%></h3>    
+    <div class="field">
+      <%= f.label :created_at %><br>
+      <%= f.date_select(:created_at) %>
+   </div>
+  </div>
+
+    <div class="div-box">
+      <h3>Options</h3>        
+    <div class="field">
+      <%= f.label :display_statesite, "Display on State Sites" %><br>
+      <%= f.check_box :display_statesite %>
+    </div>        
+  </div>
+
+  </div>  
+<% end %>
+<script>
+  // Add button click in
+  $("#post_preview").bind("click", function(evt, ui) {
+    evt.preventDefault();
+    prefix = get_prefix();
+    slug = $("#content_entry_slug").val();
+    if(slug == "index"){
+      slug = "";
+    }
+    //window.open(prefix + slug + "/?post_preview=true", '_blank');
+    return false;
+  });
+
+  // Disable function
+  jQuery.fn.extend({
+      disable: function(state) {
+          return this.each(function() {
+              this.disabled = state;
+          });
+      }
+  });
+
+  // Set action
+  window.action_name = "<%= action_name %>"
+  if(action_name == "edit" || action_name == "update"){
+    $('#post_preview').disable(false);
+  }
+
+  // Set display statesites
+  if($("#content_entry_display_statesite").is(':checked')){
+    window.display_statesite = true;
+  }
+  else{
+    window.display_statesite = false;
+  }
+
+  $( "#content_entry_display_statesite" ).change(function() {
+    if($("#content_entry_display_statesite").is(':checked')){
+      window.display_statesite = true;
+    }
+    else{
+      window.display_statesite = false;
+    }
+    set_permlink();
+  });
+
+  // Set Sector
+  window.sector = $("#content_entry_sector_id option:selected").html();
+  $( "#content_entry_sector_id" ).change(function() {
+    window.sector = $("#content_entry_sector_id option:selected").html();
+    set_permlink();
+  });
+  
+  
+
+  // Set type
+  window.type_selected = $( "#content_entry_type_id option:selected").text().toLowerCase().replace(/ /g,'');
+  if(type_selected == "page" || type_selected == "selectatype..."){
+    window.type_slug = "";
+  }
+  else if(type_selected == "article"){
+    window.type_slug = "/articles" 
+  }
+  else{
+    window.type_slug = "/"+type_selected
+  }
+
+  $( "#content_entry_type_id" ).change(function() {
+    window.type_selected = $( "#content_entry_type_id option:selected").text().toLowerCase().replace(/ /g,'');
+    if(type_selected == "page" || type_selected == "selectatype..."){
+      window.type_slug = "";
+    }
+    else if(type_selected == "article"){
+       window.type_slug = "/articles" 
+    }
+    else{
+      window.type_slug = "/"+type_selected
+    }
+    set_permlink();
+  });
+
+  // Set State
+  window.state_selected = $( "#content_entry_state_id option:selected").text().toLowerCase().replace(/ /g,''); 
+  $( "#content_entry_state_id" ).change(function() {
+    window.state_selected = $( "#content_entry_state_id option:selected").text().toLowerCase().replace(/ /g,'');
+    set_permlink();
+  });
+
+  //function get prefix url
+  function get_prefix(){
+    if(sector == "Education"){
+      if(display_statesite == false){
+        prefix = "http://360-edu.com" + type_slug + "/";
+      }
+      else{
+        if(state_selected != "none" && state_selected != ""){
+          prefix = "http://"+state_selected+".360-teach.org" + type_slug + "/";
+        }
+        else{
+          prefix = "http://onlineteachdegrees.com" + type_slug + "/";
+        }
+      }
+    }
+    else if(sector == "Public Service"){
+      prefix = "http://publicserviceeducation.org" + type_slug + "/";
+    }
+    else if(sector == "Business"){
+      prefix = "http://mbaimpact.com" + type_slug + "/";
+    }
+    else{
+      if(display_statesite == false){
+        prefix = "http://360-edu.com" + type_slug + "/";
+      }
+      else{
+        if(state_selected != "none" && state_selected != ""){
+          prefix = "http://"+state_selected+".360-teach.org" + type_slug + "/";
+        }
+        else{
+          prefix = "http://onlineteachdegrees.com" + type_slug + "/";
+        }
+      }
+    }
+    return prefix;
+  }
+
+  // Set proper permlink domain
+  function set_permlink()
+  {
+    prefix = get_prefix();
+   $("#website").html(prefix);
+  }
+
+  set_permlink();
+
+  // Set title to 69 characters
+  // Set description to 160 characters
+  $('#counter').text("(" + (160 - $("#content_entry_description").val().length) +" left)");
+  function countChar(val) {
+      var len = val.value.length;
+      $('#counter').text("(" + (160 - len) +" left)");
+  };
+
+  $("#slug").html($("#content_entry_slug").val());
+  $(".pageheader").hide();
+  $(document).ready(function() {
+  $('#slug').editable({
+    type: 'text',
+    title: 'Enter username',
+    success: function(response, newValue) {
+        $("#content_entry_slug").val(newValue);
+    }
+  });
+});
+</script>

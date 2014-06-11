@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+	<headtinymce-jquery
+	
+	
+	>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<!--<meta name="viewport" content="width=device-width, initial-scale=1.0" />-->
+		<title><%= yield(:title).empty? ? "The alextest" : yield(:title) %></title>
+		<%= stylesheet_link_tag    "infocontact/application", media: "all", "data-turbolinks-track" => true %>
+		<%= javascript_include_tag "infocontact/application", "data-turbolinks-track" => true %>
+		<%= csrf_meta_tags %>
+		<script src="http://code.highcharts.com/highcharts.js"></script>
+		<script src="http://code.highcharts.com/modules/exporting.js"></script>
+		<link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap-editable/css/bootstrap-editable.css" rel="stylesheet"/>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap-editable/js/bootstrap-editable.min.js"></script>
+	</head>
+
+	<body>
+
+		<div id="mainwrapper" class="mainwrapper">
+
+			<%#= render 'layouts/shamcey/header' %>
+			
+			<%= render 'layouts/infocontact/leftpanel' %>
+			<%= render 'layouts/infocontact/rightpanel' %>
+
+		</div><!--mainwrapper-->
+
+		<%= render 'layouts/infocontact/custom_jquery' %>
+
+		<%= render 'layouts/infocontact/modal_placeholder' %>
+
+	</body>
+</html>

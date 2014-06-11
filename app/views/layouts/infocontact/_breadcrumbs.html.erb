@@ -1,0 +1,24 @@
+<% if(@account_current_user) %>
+<ul class="breadcrumbs">
+    <li><a href="/"><i class="iconfa-home"></i></a> <span class="separator"></span></li>
+    <li><%= params[:controller].split('/')[1].capitalize %>  <span class="separator"></span> 
+    	<%= params[:controller].split('/').last.humanize.capitalize %>  <span class="separator"></span> 
+    	<%= params[:action].capitalize %></li>
+    <li style="padding-left: 10px;">| &nbsp;&nbsp;&nbsp; <b>Quick links:</b> </li>
+
+
+    
+    <li class="right"><%= link_to '<i class="iconfa-signout"></i> Logout'.html_safe, account_logout_path %></li>
+    <li class="right"><%= link_to '<i class="iconfa-user"></i> My Account'.html_safe, edit_account_user_path(@account_current_user) %></li>
+    <li class="right" style="display:none;">
+        <a href="" data-toggle="dropdown" class="dropdown-toggle"><i class="iconfa-book"></i> History</a>
+        <ul class="dropdown-menu pull-right">
+            <% if false %>
+                <% @page_history.reverse.each_with_index do |url, index| %>
+                  <li><%= link_to "#{index+1}. #{url[0,100]}", url %></li>
+                <% end %>
+            <% end %>
+        </ul>
+    </li>
+</ul>
+<% end %>

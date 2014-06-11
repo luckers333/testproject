@@ -1,0 +1,71 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Type:</strong>
+  <%= @content_entry.type.name %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <%= @content_entry.status.name %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @content_entry.user.username %>
+</p>
+
+<p>
+  <strong>State:</strong>
+  <%= @content_entry.state.name %>
+</p>
+
+<p>
+  <strong>Sector:</strong>
+  <%= @content_entry.sector.name %>
+</p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @content_entry.title %>
+</p>
+
+<p>
+  <strong>Slug:</strong>
+  <%= @content_entry.slug %>
+</p>
+
+<p>
+  <strong>Content:</strong>
+  <%= simple_format @content_entry.content %>
+</p>
+
+<% if @content_entry.temp_keywords.present? %>
+<p>
+  <strong>Keywords:</strong>
+  <%= @content_entry.temp_keywords %>
+</p>
+<% end %>
+
+<p>
+  <strong>Image url:</strong>
+  <%= @content_entry.image_url %>
+</p>
+
+<p>
+  <strong>Featured:</strong>
+  <%= @content_entry.featured %>
+</p>
+
+<p>
+  <strong>Order:</strong>
+  <%= @content_entry.order %>
+</p>
+
+<p>
+  <strong>Display statesite:</strong>
+  <%= @content_entry.display_statesite %>
+</p>
+
+<%= link_to 'Edit', edit_content_entry_path(@content_entry) %> |
+<%= link_to 'Back', content_entries_path %>
